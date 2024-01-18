@@ -50,7 +50,19 @@ Before you begin, ensure you have the following installed on your machine:
  1. Rquest body - {
       userId: some value,
       name: some value,
-      phone: some valuee,
-      password: some valueue,
+      phone: some value,
+      password: some value,
+    }
+
+- login api "/api/login"
+1. Request body - {
+      phone: some value,
+      password: some value,
+    }
+
+- api to create new room "/api/chatrooms"
+1. Request body - {
+      roomId: some value,
+      password: some value,
     }
   
