@@ -16,19 +16,20 @@ Before you begin, ensure you have the following installed on your machine:
 
 ### .env file guide
 
-# Please make a .env file in the root directory and add follwing key and values to it.
+ Please make a .env file in the root directory and add follwing key and values to it.
 
 - DB_PASSWORD = "****"
 - JWT_KEY = "****"
 
-# Few Pointers to setup database locally
+### Few Pointers to setup database locally
 
 - In DB_PASSWORD please add the password of your root mySQL server, you can add any key in JWT_KEY.
 - Make sure that you've made one database with the name "abhimaan-assignment" in your root mySQL server.
-- before starting the server add '{force: true}' inside the parameter of sync function present in 83rd line of index.js file, it'll help us to copy the db table structure locally.
+- before starting the server add '{force: true}' inside the parameter of sync function present in 83rd line of index.js file, it'll help us to copy the db table structure locally, please remove 
+  this after running it once.
 
 
-### Clone the Repository
+## Clone the Repository
 
 1. Open a terminal or command prompt.
 2. clone the repository.
