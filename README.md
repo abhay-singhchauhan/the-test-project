@@ -43,3 +43,14 @@ Before you begin, ensure you have the following installed on your machine:
   2. Signup Page - http://www.localhost:2000/frontend/signup/signup.html
   3. Login Page - http://www.localhost:2000/frontend/login/login.html
 
+
+## API end points details
+
+- registration api  "/api/register"
+ 1. Rquest body - {
+      userId: some value,
+      name: some value,
+      phone: some valuee,
+      password: some valueue,
+    }
+  
