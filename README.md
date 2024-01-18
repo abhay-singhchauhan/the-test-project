@@ -46,23 +46,40 @@ Before you begin, ensure you have the following installed on your machine:
 
 ## API end points details
 
-- registration api  "/api/register"
- 1. Rquest body - {
+### registration api  "http://www.localhost:2000/api/register"
+ - Rquest body - {
       userId: some value,
       name: some value,
       phone: some value,
       password: some value,
     }
 
-- login api "/api/login"
-1. Request body - {
+### login api "/api/login"
+ - Request body - {
       phone: some value,
       password: some value,
     }
 
-- api to create new room "/api/chatrooms"
-1. Request body - {
+### api to create new room "http://www.localhost:2000/api/chatrooms"
+ - Request body - {
       roomId: some value,
       password: some value,
     }
-  
+ - headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to join a room "http://www.localhost:2000/api/joinroom"
+- Request body - { room_id: some value, password: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to get details of all the room of which user is part "http://www.localhost:2000/api/getRooms"
+- headers - {
+      authorization: JWT_TOKEN
+   }
+   
+### api to get token which user can further use to authenticate itself while connecting to the rooms "http://www.localhost:2000/api/changechat"
+- Request body - {groupId: some value}
+
