@@ -83,3 +83,29 @@ Before you begin, ensure you have the following installed on your machine:
 ### api to get token which user can further use to authenticate itself while connecting to the rooms "http://www.localhost:2000/api/changechat"
 - Request body - {groupId: some value}
 
+### api to send a invite to a user "http://www.localhost:2000/api/invite"
+- Request body - { userId: some value, roomId: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to accept the invite "http://www.localhost:2000/api/accept-invite"
+- Request body - { id: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### to get the list of all the user with the matching userId to the query "http://www.localhost:2000/api/users-for-invite?inputVal=abcd"
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### to get all the invite requrest that clint has got "http://www.localhost:2000/api/invite-details"
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### to get user detail of a perticular user "http://www.localhost:2000/api/profile/:userId"
+- headers - {
+      authorization: JWT_TOKEN
+   }
