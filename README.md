@@ -29,9 +29,17 @@ Before you begin, ensure you have the following installed on your machine:
   this after running it once.
 
 
-## Clone the Repository
+### Clone the Repository
 
 1. Open a terminal or command prompt.
 2. clone the repository.
 3. run "npm i" command to install all the dependencies.
 4. run "npm run start" to start the server
+
+### accessing the frontend part of the app
+
+- After starting the server, got to the following links to access differect pages
+  1. Home Page - http://www.localhost:2000/frontend/home/home.html
+  2. Signup Page - http://www.localhost:2000/frontend/signup/signup.html
+  3. Login Page - http://www.localhost:2000/frontend/login/login.html
+
