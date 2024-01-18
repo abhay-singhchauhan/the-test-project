@@ -5,6 +5,8 @@ const http = require("http");
 const path = require("path");
 const User = require("./models/User");
 const Room = require("./models/room");
+const Invites = require("./models/Invites");
+
 const Token = require("./models/Token");
 
 const { Socket, Server } = require("socket.io");
@@ -12,6 +14,7 @@ const authenticationRouter = require("./routes/authentication");
 const chatrooms = require("./routes/chat");
 
 const cors = require("cors");
+const Invite = require("./models/Invites");
 app.use(express.json());
 const server = http.createServer(app);
 app.use(express.static(path.join(__dirname, "frontend")));

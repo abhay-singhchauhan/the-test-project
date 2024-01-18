@@ -85,5 +85,38 @@ h5 {
   height: 100%;
   width: 100%;
 }
-#messageBox {
+
+#searchUser input {
+  width: 100%;
+  margin: auto;
+}
+#inviteUserDiv {
+  padding: 10px;
+  width: 95%;
+  background-color: pink;
+}
+#inviteUserDiv > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20px;
+}
+
+.invite {
+  display: flex;
+  width: 100%;
+  border: 1px solid black;
+  justify-content: space-between;
+  height: 50px;
+}
+
+#userInfo {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  width: 80vw;
+  left: 10vw;
+  height: 500px;
+  top: 10vw;
+  background-color: pink;
 }
