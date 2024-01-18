@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="home.css" />
+  </head>
+  <body>
+    <div id="userInfo">
+      <button id="gobackbutton">click here to go back</button>
+      <div>Name</div>
+      <div>Name</div>
+    </div>
+    <div id="formCont">
+      <form class="form" action="submit">
+        <input type="text" placeholder="create room id" />
+        <input type="text" placeholder="Create Room Password" />
+        <button>Create Room</button>
+      </form>
+      <form class="form" action="submit">
+        <input type="text" placeholder="room id" /><input
+          type="text"
+          placeholder="room Password"
+        />
+        <button type="submit">Join Room</button>
+      </form>
+    </div>
+    <div id="container">
+      <div id="rooms"></div>
+      <div id="chatbox">
+        <div id="chatInside" style="display: none">
+          <div id="groupTop"><h4 id="groupTopH4"></h4></div>
+          <div id="searchUser">
+            <input
+              id="searchInput"
+              type="text"
+              placeholder="invite user by username"
+            />
+            <div style="display: none" id="inviteUserDiv"></div>
+          </div>
+          <div id="onlyMessages"></div>
+          <form id="messageForm" action="submit">
+            <input type="text" id="messageBox" /><button type="submit">
+              Send
+            </button>
+          </form>
+        </div>
+      </div>
+      <div id="friendReq"></div>
+    </div>
+  </body>
+
+  <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
+  <script src="home.js"></script>
+</html>
