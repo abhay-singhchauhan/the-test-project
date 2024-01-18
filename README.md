@@ -38,7 +38,7 @@ Before you begin, ensure you have the following installed on your machine:
 
 ### accessing the frontend part of the app
 
-- After starting the server, got to the following links to access differect pages
+- After starting the server go to the following links to access differect pages
   1. Home Page - http://www.localhost:2000/frontend/home/home.html
   2. Signup Page - http://www.localhost:2000/frontend/signup/signup.html
   3. Login Page - http://www.localhost:2000/frontend/login/login.html
