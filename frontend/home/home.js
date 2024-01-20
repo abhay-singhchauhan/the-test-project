@@ -19,9 +19,9 @@ async function fetchData() {
     });
 
     const data = await response.json();
-    data.reverse();
+    data[0].reverse();
     console.log(data);
-    displayRooms(data);
+    displayRooms(data[0]);
   } catch (error) {
     console.log("Fetch error:", error);
   }
@@ -65,7 +65,6 @@ document.getElementById("inviteUserDiv").addEventListener("click", fetchUser);
 
 async function fetchInvites() {
   try {
-    console.log("what can i do nothing is happening");
     const response = await fetch("http://localhost:2000/api/invite-details", {
       method: "GET",
       headers: {
@@ -76,7 +75,7 @@ async function fetchInvites() {
 
     const data = await response.json();
     data.invites.reverse();
-    console.log(data);
+    console.log(data, "invites data");
     displayInvites(data.invites);
   } catch (error) {
     console.log("Fetch error:", error);

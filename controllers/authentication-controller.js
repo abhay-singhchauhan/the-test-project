@@ -1,10 +1,10 @@
 const bcrypt = require("bcrypt");
 const { validationResult } = require("express-validator");
-const { Op } = require("sequelize");
 const jwt = require("jsonwebtoken");
 const { check } = require("express-validator");
 const User = require("../models/User");
 const crypto = require("crypto");
+const connection = require("../util/db");
 require("dotenv").config();
 
 let registerValidatorArray = [
@@ -23,28 +23,34 @@ async function register(req, res) {
   }
 
   try {
-    const existingUser = await User.findOne({
-      where: {
-        [Op.or]: [{ userId: req.body.userId }, { phone: req.body.phone }],
-      },
-    });
-
-    if (existingUser) {
+    const [existingUser] = await connection
+      .promise()
+      .query("SELECT * FROM users WHERE userId = ? OR phone = ?", [
+        req.body.userId,
+        req.body.phone,
+      ]);
+    console.log(existingUser);
+    if (existingUser.length > 0) {
       return res.status(400).json({ error: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
     console.log("enterred");
-    const newUser = await User.create({
-      userId: req.body.userId,
-      deviceId: crypto.randomUUID(),
-      name: req.body.name,
-      phone: req.body.phone,
-      password: hashedPassword,
-    });
+    const [newUser] = await connection
+      .promise()
+      .query(
+        "INSERT INTO users (userId, deviceId, name, phone, password) VALUES (?, ?, ?, ?, ?)",
+        [
+          req.body.userId,
+          crypto.randomUUID(),
+          req.body.name,
+          req.body.phone,
+          hashedPassword,
+        ]
+      );
     console.log("sustained");
-
+    console.log(newUser);
     res.status(201).json({ success: true, user: newUser });
   } catch (error) {
     console.error("Registration error:", error);
@@ -56,31 +62,29 @@ async function login(req, res) {
   try {
     const { phone, password } = req.body;
 
-    const user = await User.findOne({
-      where: {
-        phone: req.body.phone,
-      },
-    });
+    const [user] = await connection
+      .promise()
+      .query(`SELECT * FROM users WHERE phone = ?`, [phone]);
 
-    if (!user) {
+    if (user.length <= 0) {
       return res.status(401).json({ error: "Invalid phone" });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await bcrypt.compare(password, user[0].password);
 
     if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid password" });
     }
 
     const token = jwt.sign(
-      { userId: user.userId, id: user.id },
+      { userId: user[0].userId, id: user[0].id },
       process.env.JWT_KEY,
       {
         expiresIn: "1000h",
       }
     );
 
-    res.json({ token, user });
+    res.json({ token, user: user[0] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
