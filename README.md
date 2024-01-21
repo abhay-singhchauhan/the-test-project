@@ -25,8 +25,6 @@ Before you begin, ensure you have the following installed on your machine:
 
 - In DB_PASSWORD please add the password of your root mySQL server, you can add any key in JWT_KEY.
 - Make sure that you've made one database with the name "abhimaan-assignment" in your root mySQL server.
-- before starting the server add '{force: true}' inside the parameter of sync function present in 83rd line of index.js file, it'll help us to copy the db table structure locally, please remove 
-  this after running it once.
 
 
 ### Clone the Repository
@@ -42,6 +40,68 @@ Before you begin, ensure you have the following installed on your machine:
   1. Home Page - http://www.localhost:2000/frontend/home/home.html
   2. Signup Page - http://www.localhost:2000/frontend/signup/signup.html
   3. Login Page - http://www.localhost:2000/frontend/login/login.html
+
+
+
+
+## Table Structure
+
+- Command to create users table
+  
+  CREATE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId VARCHAR(255) NOT NULL UNIQUE,
+  deviceId VARCHAR(255) NOT NULL UNIQUE,
+  name VARCHAR(255) NOT NULL,
+  phone VARCHAR(255) NOT NULL UNIQUE,
+  availCoins INT NOT NULL DEFAULT 150,
+  password VARCHAR(255) NOT NULL,
+  isPrime BOOLEAN NOT NULL DEFAULT true
+);
+
+
+- Command to create tokens table
+
+  CREATE TABLE tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tokenId VARCHAR(255) NOT NULL,
+  isValid BOOLEAN NOT NULL DEFAULT true
+);
+
+
+- Command to create rooms table
+
+  CREATE TABLE rooms (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  uniqueRoomId VARCHAR(255) NOT NULL,
+  roomPassword VARCHAR(255) NOT NULL,
+  creator INT NOT NULL
+);
+
+
+- Command to create invites table
+
+  CREATE TABLE invites (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  roomId INT NOT NULL,
+  userId INT NOT NULL,
+  roomName VARCHAR(255) NOT NULL,
+  isActive BOOLEAN DEFAULT true,
+  FOREIGN KEY (roomId) REFERENCES rooms(id),
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
+
+
+- Command to create roomuser table
+
+  CREATE TABLE roomuser (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  roomId INT NOT NULL,
+  FOREIGN KEY (userId) REFERENCES Users(id),
+  FOREIGN KEY (roomId) REFERENCES Rooms(id)
+);
+
 
 
 ## API end points details
