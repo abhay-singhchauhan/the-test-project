@@ -102,6 +102,27 @@ Before you begin, ensure you have the following installed on your machine:
   FOREIGN KEY (roomId) REFERENCES Rooms(id)
 );
 
+- Command to create messages table
+
+   CREATE TABLE messages (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    userId INT NOT NULL,
+    roomId INT NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users(id),
+    FOREIGN KEY (roomId) REFERENCES rooms(id)
+);
+
+- Command to create friendrequests table
+
+  CREATE TABLE friendrequests (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sendTo INT NOT NULL,
+  sentFrom INT NOT NULL,
+  isValid BOOLEAN DEFAULT true,
+  FOREIGN KEY (sendTo) REFERENCES users(id),
+  FOREIGN KEY (sentFrom) REFERENCES users(id)
+);
 
 
 ## API end points details
@@ -166,6 +187,29 @@ Before you begin, ensure you have the following installed on your machine:
    }
 
 ### to get user detail of a perticular user "http://www.localhost:2000/api/profile/:userId"
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to send messages in a group "http://www.localhost:2000/api/messages"
+- Request body - { userId: some value, roomId: some value, message: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to get messages "http://www.localhost:2000/api/get-message"
+- Request body - { lastMessage: some value, roomId: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to send friend request "http://www.localhost:2000/api/friend-requests"
+- Request body - { reqTo: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to get friend request "http://www.localhost:2000/api/get-requests"
 - headers - {
       authorization: JWT_TOKEN
    }
