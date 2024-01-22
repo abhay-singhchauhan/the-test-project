@@ -3,18 +3,12 @@ const app = express();
 const db = require("./util/db");
 const http = require("http");
 const path = require("path");
-const User = require("./models/User");
-const Room = require("./models/room");
-const Invites = require("./models/Invites");
-
-const Token = require("./models/Token");
 
 const { Socket, Server } = require("socket.io");
 const authenticationRouter = require("./routes/authentication");
 const chatrooms = require("./routes/chat");
 
 const cors = require("cors");
-const Invite = require("./models/Invites");
 app.use(express.json());
 const server = http.createServer(app);
 app.use(express.static(path.join(__dirname, "frontend")));
@@ -49,13 +43,18 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
   socket.on("joinRoom", async (room) => {
-    let token = await Token.findOne({ where: { tokenId: room.tokenId } });
-
-    if (token.isValid) {
-      await Token.update(
-        { isValid: false },
-        { where: { tokenId: room.tokenId } }
-      );
+    let [token] = await db
+      .promise()
+      .query("SELECT * FROM tokens WHERE tokenId = ?", [room.tokenId]);
+    console.log(token[0]);
+    console.log("dsfhkdgsflhkdsfjkdsnf ajsdfn ds;fjhkd");
+    console.log(token[0].isValid);
+    if (token[0].isValid) {
+      await db
+        .promise()
+        .query("UPDATE tokens SET isValid = false WHERE tokenId = ?", [
+          room.tokenId,
+        ]);
       socket.join(room.roomId);
       io.to(room.roomId).emit("joinedRoom", {
         message: `${room.userName} Joined the Room`,
@@ -80,11 +79,6 @@ io.on("connection", (socket) => {
   });
 });
 
-User.belongsToMany(Room, { through: "roomuser" });
-Room.belongsToMany(User, { through: "roomuser" });
-
-db.sync().then(() => {
-  server.listen(2000, () => {
-    console.log("Server is running");
-  });
+server.listen(2000, () => {
+  console.log("Server is running");
 });

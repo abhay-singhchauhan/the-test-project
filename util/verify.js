@@ -13,6 +13,7 @@ function veriry(req, res, next) {
       return res.status(403).json({ error: "Forbidden" });
     }
     req.user = user;
+    console.log("come inside the middle wear", req.user);
     next();
   });
 }
