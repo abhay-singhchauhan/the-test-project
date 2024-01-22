@@ -7,6 +7,8 @@ const path = require("path");
 const { Socket, Server } = require("socket.io");
 const authenticationRouter = require("./routes/authentication");
 const chatrooms = require("./routes/chat");
+const messages = require("./routes/messages");
+const friendRequest = require("./routes/friendReq");
 
 const cors = require("cors");
 app.use(express.json());
@@ -22,6 +24,8 @@ app.use(
 
 app.use(authenticationRouter);
 app.use(chatrooms);
+app.use(messages);
+app.use(friendRequest);
 
 app.use((req, res, next) => {
   console.log(req.url);
