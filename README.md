@@ -25,8 +25,6 @@ Before you begin, ensure you have the following installed on your machine:
 
 - In DB_PASSWORD please add the password of your root mySQL server, you can add any key in JWT_KEY.
 - Make sure that you've made one database with the name "abhimaan-assignment" in your root mySQL server.
-- before starting the server add '{force: true}' inside the parameter of sync function present in 83rd line of index.js file, it'll help us to copy the db table structure locally, please remove 
-  this after running it once.
 
 
 ### Clone the Repository
@@ -42,6 +40,89 @@ Before you begin, ensure you have the following installed on your machine:
   1. Home Page - http://www.localhost:2000/frontend/home/home.html
   2. Signup Page - http://www.localhost:2000/frontend/signup/signup.html
   3. Login Page - http://www.localhost:2000/frontend/login/login.html
+
+
+
+
+## Table Structure
+
+- Command to create users table
+  
+  CREATE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId VARCHAR(255) NOT NULL UNIQUE,
+  deviceId VARCHAR(255) NOT NULL UNIQUE,
+  name VARCHAR(255) NOT NULL,
+  phone VARCHAR(255) NOT NULL UNIQUE,
+  availCoins INT NOT NULL DEFAULT 150,
+  password VARCHAR(255) NOT NULL,
+  isPrime BOOLEAN NOT NULL DEFAULT true
+);
+
+
+- Command to create tokens table
+
+  CREATE TABLE tokens (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  tokenId VARCHAR(255) NOT NULL,
+  isValid BOOLEAN NOT NULL DEFAULT true
+);
+
+
+- Command to create rooms table
+
+  CREATE TABLE rooms (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  uniqueRoomId VARCHAR(255) NOT NULL,
+  roomPassword VARCHAR(255) NOT NULL,
+  creator INT NOT NULL
+);
+
+
+- Command to create invites table
+
+  CREATE TABLE invites (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  roomId INT NOT NULL,
+  userId INT NOT NULL,
+  roomName VARCHAR(255) NOT NULL,
+  isActive BOOLEAN DEFAULT true,
+  FOREIGN KEY (roomId) REFERENCES rooms(id),
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
+
+
+- Command to create roomuser table
+
+  CREATE TABLE roomuser (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  roomId INT NOT NULL,
+  FOREIGN KEY (userId) REFERENCES Users(id),
+  FOREIGN KEY (roomId) REFERENCES Rooms(id)
+);
+
+- Command to create messages table
+
+   CREATE TABLE messages (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    userId INT NOT NULL,
+    roomId INT NOT NULL,
+    message VARCHAR(255) NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users(id),
+    FOREIGN KEY (roomId) REFERENCES rooms(id)
+);
+
+- Command to create friendrequests table
+
+  CREATE TABLE friendrequests (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  sendTo INT NOT NULL,
+  sentFrom INT NOT NULL,
+  isValid BOOLEAN DEFAULT true,
+  FOREIGN KEY (sendTo) REFERENCES users(id),
+  FOREIGN KEY (sentFrom) REFERENCES users(id)
+);
 
 
 ## API end points details
@@ -106,6 +187,29 @@ Before you begin, ensure you have the following installed on your machine:
    }
 
 ### to get user detail of a perticular user "http://www.localhost:2000/api/profile/:userId"
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to send messages in a group "http://www.localhost:2000/api/messages"
+- Request body - { userId: some value, roomId: some value, message: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to get messages "http://www.localhost:2000/api/get-message"
+- Request body - { lastMessage: some value, roomId: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to send friend request "http://www.localhost:2000/api/friend-requests"
+- Request body - { reqTo: some value }
+- headers - {
+      authorization: JWT_TOKEN
+   }
+
+### api to get friend request "http://www.localhost:2000/api/get-requests"
 - headers - {
       authorization: JWT_TOKEN
    }
